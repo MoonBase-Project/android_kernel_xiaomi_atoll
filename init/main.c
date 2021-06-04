@@ -1053,6 +1053,7 @@ static int __ref kernel_init(void *unused)
 	numa_default_policy();
 
 	rcu_end_inkernel_boot();
+
 	place_marker("M - DRIVER Kernel Boot Done");
 
 #ifdef CONFIG_EARLY_SERVICES
@@ -1064,6 +1065,9 @@ static int __ref kernel_init(void *unused)
 			;
 	}
 #endif
+
+	do_sysctl_args();
+
 	if (ramdisk_execute_command) {
 		ret = run_init_process(ramdisk_execute_command);
 		if (!ret)
