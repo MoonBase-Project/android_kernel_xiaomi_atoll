@@ -3,7 +3,7 @@ VERSION = 4
 PATCHLEVEL = 14
 SUBLEVEL = 240
 EXTRAVERSION =
-NAME = Petit Gorille
+NAME = Petit Gorille On The Moon.
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
@@ -718,12 +718,11 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, stringop-overflow)
 KBUILD_CFLAGS	+= $(call cc-disable-warning, stringop-truncation)
 KBUILD_CFLAGS	+= $(call cc-disable-warning, zero-length-bounds)
 
-ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
-KBUILD_CFLAGS += -O3
-else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
 KBUILD_CFLAGS += -O3
 else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS += -Os
+endif
 
 ifdef CONFIG_LLVM_POLLY
 KBUILD_CFLAGS	+= -mllvm -polly \
@@ -734,8 +733,7 @@ KBUILD_CFLAGS	+= -mllvm -polly \
 		   -mllvm -polly-vectorizer=stripmine \
 		   -mllvm -polly-invariant-load-hoisting
 endif
-endif
-endif
+
 
 # Tell compiler to tune the performance of the code for a specified
 # target processor
@@ -809,14 +807,12 @@ KBUILD_CFLAGS += $(call cc-option, -Wno-sometimes-uninitialized)
 
 KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
 
-ifdef CONFIG_MODULES
 # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
 # source of a reference will be _MergedGlobals and not on of the whitelisted names.
 # See modpost pattern 2
 KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
 KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
 endif
-else
 
 KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks,)
 # These warnings generated too much noise in a regular build.
